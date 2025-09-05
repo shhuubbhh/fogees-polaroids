@@ -18,7 +18,7 @@ h1 {
   flex-wrap: wrap;
 }
 .profilePic{
-  color: white;
+  background-color: white;
 }
 input, button {
   padding: 10px;
@@ -109,3 +109,4 @@ button {
     opacity: 0.6;           /* optional: softer */
   }
 }
+
