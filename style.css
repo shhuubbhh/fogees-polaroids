@@ -1,0 +1,89 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: #020617;
+  background-size: cover;
+  position: relative;
+}
+.logo {
+  position: absolute;   /* keeps it fixed at the top-left */
+  top: 1px;
+  left: 1px;
+  width: 200px;          /* adjust size */
+  height: auto;
+  z-index: 1000;        /* makes sure it’s above background */
+}
+
+h1 {
+  margin-top: 20px;
+  color: wheat;
+}
+
+.form {
+  margin: 20px auto;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+input, button {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+button {
+  background: #333;
+  color: white;
+  cursor: pointer;
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.polaroid {
+  background: rgb(254, 254, 254);
+  padding: 5px;
+  width: 100px;
+  height: 170px;
+  border: 2px solid #d7c5c5;
+  box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
+  transform: rotate(-2deg);
+  transition: transform 0.2s;
+}
+
+.polaroid:hover {
+  transform: rotate(0deg) scale(1.05);
+}
+
+.polaroid img {
+  width: 100%;
+  max-height: 100px;
+  border-bottom: 2px solid #ddd;
+}
+
+.caption {
+  margin-top: 3px;
+}
+.caption h4{
+    margin: 2px;
+}
+.caption p{
+    font-size: smaller;
+    margin: 2px;
+}
+.fire-logo {
+  position: fixed;   
+  right: -280px;            
+  top: 50%;                
+  transform: translateY(-50%); 
+  max-width: 1000px;        
+  opacity: 0.8;             
+  pointer-events: none;     
+  z-index: 0;               
+}

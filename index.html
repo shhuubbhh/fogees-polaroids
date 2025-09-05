@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fogo Polaroids</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <img src="logo.png" alt="Logo" class="logo">
+  <h1>FOGO Community Polaroid Wall</h1>
+
+  <form id="polaroidForm" class="form">
+    <input type="text" id="name" placeholder="Your Name" required>
+    <input type="file" id="profilePic" accept="image/*" required>
+    <input type="text" id="about" placeholder="One line about you" required>
+    <button type="submit">Create Polaroid</button>
+  </form>
+
+  <div id="gallery" class="gallery"></div>
+  <img src="fire-logo.webp" alt="Fire Logo" class="fire-logo">
+
+  <!-- Load Supabase client -->
+  <script src="https://unpkg.com/@supabase/supabase-js"></script>
+  <script>
+    const SUPABASE_URL = "https://inqxzmktgefajppndzwl.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlucXh6bWt0Z2VmYWpwcG5kendsIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NzA3Njg0OCwiZXhwIjoyMDcyNjUyODQ4fQ.Rcj3hRjtCMwxgN-tB_52Y7XR0tYH1OqZ6u5x1Q3dqvU";
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    async function loadPolaroids() {
+      const { data, error } = await supabase
+        .from("polaroids")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error(error);
+        return;
+      }
+
+      const gallery = document.getElementById("gallery");
+      gallery.innerHTML = "";
+      data.forEach(p => {
+        const card = document.createElement("div");
+        card.className = "polaroid";
+        card.innerHTML = `
+          <img src="${p.image_url}" alt="${p.name}">
+          <div class="caption">
+            <h4>${p.name}</h4>
+            <p>${p.about}</p>
+          </div>
+        `;
+        gallery.appendChild(card);
+      });
+    }
+
+    document.getElementById("polaroidForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value;
+      const about = document.getElementById("about").value;
+      const file = document.getElementById("profilePic").files[0];
+      if (!file) return alert("Please select an image!");
+
+      // Upload file to Supabase Storage
+      const filePath = `polaroids/${Date.now()}-${file.name}`;
+      let { data: uploadData, error: uploadError } = await supabase.storage
+        .from("polaroids")
+        .upload(filePath, file);
+
+      if (uploadError) {
+        console.error(uploadError);
+        return;
+      }
+
+      const { data: urlData } = supabase.storage
+        .from("polaroids")
+        .getPublicUrl(filePath);
+
+      // Insert record into DB
+      const { error: dbError } = await supabase.from("polaroids").insert([
+        { name, about, image_url: urlData.publicUrl }
+      ]);
+
+      if (dbError) {
+        console.error(dbError);
+        return;
+      }
+
+      e.target.reset();
+      loadPolaroids();
+    });
+
+    loadPolaroids();
+    setInterval(loadPolaroids, 3000);
+  </script>
+</body>
+</html>
