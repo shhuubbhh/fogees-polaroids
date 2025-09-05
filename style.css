@@ -106,7 +106,8 @@ button {
     right: -150px;          /* adjust if needed */
     transform: none;        /* cancel translateY */
     max-width: 500px;       /* smaller on mobile */
-    opacity: 0.6;           /* optional: softer */
+    opacity: 0.6;
+    z-index: -1; /* optional: softer */
   }
 }
 
@@ -135,4 +136,5 @@ button {
   outline: none;
   text-decoration: underline;
 }
+
 
