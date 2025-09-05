@@ -30,7 +30,7 @@
       const { data, error } = await supabase
         .from("polaroids")
         .select("*")
-        .order("created_at", { ascending: false });
+        .order("created_at", { ascending: true });
 
       if (error) {
         console.error(error);
@@ -95,3 +95,4 @@
   </script>
 </body>
 </html>
+
