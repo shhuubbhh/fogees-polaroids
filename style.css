@@ -110,4 +110,29 @@ button {
   }
 }
 
+.site-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  padding: 0.5rem 0;                  
+  background: rgba(255, 255, 255, 0.8); 
+  font-size: 0.875rem;              
+  color: #4b5563;               
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); 
+  z-index: 50;            
+}
+.site-footer a {
+  color: inherit;             
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-weight: 600;
+}
+.site-footer a:hover,
+.site-footer a:focus {
+  color: #1f2937;                 
+  outline: none;
+  text-decoration: underline;
+}
 
